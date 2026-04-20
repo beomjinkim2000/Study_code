@@ -65,6 +65,9 @@ python3 scripts/wiki_validate.py
 검사 항목:
 - 개념 페이지: frontmatter(type/project/tags), 필수 섹션, 최소 wikilinks
 - 약점 페이지: frontmatter(level/next_review/mastered), study 링크
+- 프로젝트 README: 필수 섹션(구현 순서/막혔을 때/개념 파일 현황), ✅ 파일 존재, [[링크]] 고아, 미완료 항목
+- 학습인사이트.md: 필수 섹션(현재 수준/잘 잡힌 개념/다음 세션), 파일 존재
+- log.md: 항목 존재 여부, 파일명 형식
 - state.json: 스키마 준수, 필수 필드, status 유효값
 
 특정 프로젝트만 검증:
@@ -157,7 +160,8 @@ python3 scripts/test_bootstrap.py
 | 파일 | 역할 |
 |------|------|
 | `scripts/wiki_lint.py` | 구조 검증 (링크·참조 관계) |
-| `scripts/wiki_validate.py` | 콘텐츠 검증 (스키마 준수) |
+| `scripts/wiki_validate.py` | 콘텐츠 검증 (스키마 준수, README, 인사이트, 로그) |
+| `scripts/check_project_readme.py` | 프로젝트 README 단독 점검 (standalone) |
 | `scripts/schemas/concept_page.json` | 개념 페이지 스키마 정의 |
 | `scripts/schemas/weakness_page.json` | 약점 페이지 스키마 정의 |
 | `scripts/schemas/state_schema.json` | state.json 스키마 정의 |

@@ -120,8 +120,12 @@ class WikiValidator:
             self._validate_concept_pages()
         with progress_indicator("약점 페이지 검증"):
             self._validate_weakness_pages()
+        with progress_indicator("프로젝트 README 검증"):
+            self._validate_project_readmes()
         with progress_indicator("state.json 검증"):
             self._validate_state_json()
+        with progress_indicator("학습인사이트·로그 검증"):
+            self._validate_insight_and_log()
 
         self._print_report()
         return len(self.errors)
@@ -256,6 +260,101 @@ class WikiValidator:
             self._add_warning("sm2_mismatch", rel,
                               f"SM-2 불일치: 파일={stored_next}, 계산={expected_str} "
                               f"(level={level}, last_result={last_result})  ({rel})")
+
+    # ── 프로젝트 README 검증 ──────────────────────────────────────────────
+
+    REQUIRED_README_SECTIONS = [
+        (r"##\s+구현\s*순서", "구현 순서"),
+        (r"##\s+막혔을\s*때", "막혔을 때 참조 매핑"),
+        (r"##\s+개념\s*파일\s*현황", "개념 파일 현황"),
+    ]
+
+    def _validate_project_readmes(self):
+        projects_dir = STUDY / "projects"
+        if not projects_dir.exists():
+            return
+        for project_dir in sorted(projects_dir.iterdir()):
+            if not project_dir.is_dir():
+                continue
+            if self.project and project_dir.name != self.project:
+                continue
+            self._check_project_readme(project_dir)
+
+    def _check_project_readme(self, pdir: Path):
+        name = pdir.name
+        readme = pdir / "README.md"
+        rel = str(readme.relative_to(BASE))
+
+        if not readme.exists():
+            self._add_error("missing_readme", rel, f"{name}/README.md 없음")
+            return
+
+        content = readme.read_text(encoding="utf-8")
+
+        for pattern, label in self.REQUIRED_README_SECTIONS:
+            if not re.search(pattern, content, re.MULTILINE):
+                self._add_error("missing_section", rel,
+                                f"{name}/README.md: '{label}' 섹션 없음")
+
+        for line in content.splitlines():
+            m = re.match(r"\|\s*(\S+\.md)\s*\|\s*✅", line)
+            if m:
+                fname = m.group(1)
+                if not (pdir / fname).exists():
+                    self._add_error("concept_file_missing", rel,
+                                    f"{name}/README.md: ✅ 표시됐지만 파일 없음 → {fname}")
+
+        for link in re.findall(r"\[\[([^\]|]+)", content):
+            target = pdir / f"{link}.md"
+            if not target.exists():
+                self._add_warning("orphan_link", rel,
+                                  f"{name}/README.md: [[{link}]] → 파일 없음")
+
+        todo_items = re.findall(r"- \[ \]", content)
+        if todo_items:
+            self._add_warning("pending_items", rel,
+                              f"{name}/README.md: 미완료 항목 {len(todo_items)}개")
+
+    # ── 학습인사이트·로그 검증 ────────────────────────────────────────────
+
+    def _validate_insight_and_log(self):
+        insight_path = STUDY / "학습인사이트.md"
+        if not insight_path.exists():
+            self._add_warning("missing_insight", "study/학습인사이트.md",
+                              "학습인사이트.md 없음 — 세션 종료 시 insight_skill 실행 필요")
+        else:
+            content = insight_path.read_text(encoding="utf-8")
+            required = [
+                (r"##\s+현재\s*수준", "현재 수준"),
+                (r"##\s+잘\s*잡힌\s*개념", "잘 잡힌 개념"),
+                (r"##\s+다음\s*세션", "다음 세션 포인트"),
+            ]
+            for pattern, label in required:
+                if not re.search(pattern, content, re.MULTILINE):
+                    self._add_error("missing_section", "study/학습인사이트.md",
+                                    f"학습인사이트.md: '{label}' 섹션 없음")
+
+        log_path = STUDY / "log.md"
+        if not log_path.exists():
+            self._add_warning("missing_log", "study/log.md",
+                              "log.md 없음 — Ingest 프로토콜이 실행되지 않았음")
+        else:
+            content = log_path.read_text(encoding="utf-8")
+            entries = re.findall(r"^## \[\d{4}-\d{2}-\d{2}\]", content, re.MULTILINE)
+            if not entries:
+                self._add_warning("empty_log", "study/log.md",
+                                  "log.md에 항목 없음 — 형식: ## [YYYY-MM-DD] ingest|lint|init")
+
+        log_dir = STUDY / "학습인사이트_log"
+        if log_dir.exists():
+            bad_names = [
+                f.name for f in log_dir.glob("*.md")
+                if f.name != "README.md"
+                and not re.fullmatch(r"\d{4}-\d{2}-\d{2}_\d{2}-\d{2}(_\d{2})?\.md", f.name)
+            ]
+            for name in bad_names:
+                self._add_warning("bad_insight_log_name", f"study/학습인사이트_log/{name}",
+                                  f"인사이트 로그 파일명 형식 오류: {name} (YYYY-MM-DD_HH-MM.md 필요)")
 
     # ── state.json 검증 ───────────────────────────────────────────────────
 
