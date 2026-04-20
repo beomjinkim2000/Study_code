@@ -5,6 +5,20 @@ Claude Code CLI를 활용한 LLM-wiki 기반 딥러닝 학습 프레임워크.
 
 ---
 
+## 미리보기
+
+| Study Index | Obsidian Graph |
+|:-----------:|:--------------:|
+| ![index](docs/screenshots/index.png) | ![graph](docs/screenshots/graph.png) |
+
+| 약점노트 (SM-2) | 실험 로그 |
+|:--------------:|:---------:|
+| ![weakness](docs/screenshots/weakness.png) | ![explog](docs/screenshots/explog.png) |
+
+> 스크린샷은 `docs/screenshots/` 에 저장하면 자동으로 표시됨.
+
+---
+
 ## 구조
 
 ```
