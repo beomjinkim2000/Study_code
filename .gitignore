@@ -14,8 +14,16 @@ projects/*/
 study/projects/
 study/약점노트/active/*
 !study/약점노트/active/.gitkeep
+study/약점노트/README.md
 study/학습인사이트_log/*
 !study/학습인사이트_log/.gitkeep
+
+# 세션 상태 파일 — 개인 데이터, Git 불필요
+study/index.md
+study/log.md
+study/session_queue.md
+study/state.json
+study/학습인사이트.md
 
 # 로컬 설정
 .claude/settings.local.json
