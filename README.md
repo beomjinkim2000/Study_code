@@ -15,6 +15,10 @@ Claude Code CLI를 활용한 LLM-wiki 기반 딥러닝 학습 프레임워크.
 |:--------------:|:---------:|
 | ![weakness](docs/screenshots/weakness.png) | ![explog](docs/screenshots/explog.png) |
 
+| 학습 성장 로그 | |
+|:--------------:|:-:|
+| ![growth](docs/screenshots/growth.png) | |
+
 > 스크린샷은 `docs/screenshots/` 에 저장하면 자동으로 표시됨.
 
 ---
