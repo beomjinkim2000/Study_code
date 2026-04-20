@@ -69,6 +69,24 @@ claude
 검증 통과 → `document_skill` 실행 → 큐에서 제거  
 큐가 비면 세션 종료 조건 체크.
 
+## Obsidian 연동
+
+`study/` 폴더를 Obsidian vault로 열면 wiki를 그래프·검색으로 탐색할 수 있다.
+
+**심볼릭 링크로 연결하기 (권장)**
+```bash
+ln -s /path/to/Study_code/study ~/Documents/Obsidian/study-wiki
+```
+
+Obsidian에서 `~/Documents/Obsidian/study-wiki` 폴더를 vault로 열면 된다.
+
+- `[[링크]]` → Obsidian wikilink로 바로 이동
+- Graph view → 개념 간 연결 구조 시각화
+- Dataview 플러그인 → frontmatter 기반 쿼리 (`type`, `project`, `tags`)
+- `study/약점노트/active/` → SM-2 복습 현황 한눈에 확인
+
+> 심볼릭 링크를 쓰면 Claude가 파일을 수정할 때 Obsidian에서 실시간으로 반영된다.
+
 ## 주요 스크립트
 
 | 명령어 | 역할 |
