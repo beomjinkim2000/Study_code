@@ -8,7 +8,7 @@ __pycache__/
 **/.DS_Store
 
 # Raw layer — 프로젝트별 데이터/코드 (bootstrap 후 직접 추가)
-projects/
+projects/*/
 
 # 개인 학습 노트 — 프로젝트마다 생성됨 (bootstrap + document_skill)
 study/projects/
