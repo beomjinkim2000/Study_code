@@ -69,6 +69,37 @@ claude
 검증 통과 → `document_skill` 실행 → 큐에서 제거  
 큐가 비면 세션 종료 조건 체크.
 
+## 주요 기능
+
+### 약점노트 + SM-2 복습 (`study/약점노트/`)
+개념을 문서화할 때 자동으로 약점노트(`w_*.md`)가 생성된다.  
+SM-2 알고리즘으로 복습 간격을 계산해 `next_review` 날짜를 관리한다.  
+세션 시작 시 Claude가 `next_review <= 오늘`인 항목을 먼저 복습하도록 유도한다.
+
+```
+힌트 없이 정답 → 간격 × 2.5  /  틀림 → 1일 리셋  /  3회 연속 정답 → mastered
+```
+
+### 실험 로그 (`study/projects/{name}/experiments/log.md`)
+하이퍼파라미터 탐색 결과를 Phase별로 기록한다.  
+bootstrap 실행 시 Phase 1~3 + 최종 선택 템플릿이 자동 생성된다.
+
+### 학습 인사이트 (`study/학습인사이트.md`)
+세션 종료 시 Claude가 자동으로 덮어쓴다.  
+현재 이해 수준·잘 잡힌 개념·아직 흔들리는 개념을 스냅샷으로 저장한다.  
+날짜별 이력은 `study/학습인사이트_log/`에 누적된다.
+
+### Wiki Lint (`scripts/wiki_lint.py`)
+세션 종료 시 자동 실행되며 다음 항목을 점검한다.
+
+| 점검 항목 | 감지 조건 |
+|-----------|----------|
+| orphan link | `[[링크]]` 대상 파일 없음 |
+| SM-2 만료 | `next_review <= 오늘` |
+| index 누락 | study 파일이 index.md에 없음 |
+
+---
+
 ## Obsidian 연동
 
 `study/` 폴더를 Obsidian vault로 열면 wiki를 그래프·검색으로 탐색할 수 있다.
