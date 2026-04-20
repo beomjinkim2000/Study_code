@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "state_schema",
+  "description": "study/state.json 머신 상태 파일 검증 규칙",
+  "type": "object",
+  "required": ["version", "last_lint", "active_project", "projects"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "스키마 버전 (현재 1.0)"
+    },
+    "last_lint": {
+      "type": ["string", "null"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "마지막 lint 실행일 YYYY-MM-DD, 미실행 시 null"
+    },
+    "active_project": {
+      "type": ["string", "null"],
+      "description": "현재 활성 프로젝트명, 없으면 null"
+    },
+    "projects": {
+      "type": "object",
+      "description": "프로젝트별 상태 맵",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "bootstrapped_at", "concepts_completed", "concepts_total"],
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["in_progress", "completed", "paused"],
+            "description": "프로젝트 진행 상태"
+          },
+          "bootstrapped_at": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "bootstrap 실행일 YYYY-MM-DD"
+          },
+          "concepts_completed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "완료된 개념 수"
+          },
+          "concepts_total": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "전체 개념 수"
+          }
+        }
+      }
+    }
+  }
+}

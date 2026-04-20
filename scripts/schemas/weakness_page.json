@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "weakness_page",
+  "description": "study/약점노트/active/w_*.md 약점 페이지 검증 규칙",
+  "filename_pattern": "^w_.+\\.md$",
+  "required_frontmatter": {
+    "concept": {
+      "type": "string",
+      "description": "개념 설명 문자열"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4,
+      "description": "난이도 레벨 1~4"
+    },
+    "current_streak": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "연속 정답 횟수"
+    },
+    "next_review": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "다음 복습일 YYYY-MM-DD"
+    },
+    "mastered": {
+      "type": "boolean",
+      "description": "마스터 완료 여부"
+    }
+  },
+  "optional_frontmatter": {
+    "study_file": {
+      "type": "string",
+      "description": "대응 study 파일 stem (파일명≠개념명일 때 명시적 역참조, wiki_lint.py가 읽음)"
+    }
+  },
+  "required_sections": {
+    "study_link": {
+      "pattern": "> 상세: \\[\\[.+\\]\\]",
+      "description": "대응 study 페이지 링크 (> 상세: [[파일명]] 형식)"
+    }
+  },
+  "mastery_rule": {
+    "trigger": "current_streak >= 3",
+    "action": "mastered: true 로 업데이트",
+    "description": "연속 3회 정답 시 마스터 처리"
+  },
+  "notes": "level은 frontmatter 소유 — L 서브폴더 없음 (ADR-003)"
+}

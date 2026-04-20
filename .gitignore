@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+**/.DS_Store
+
+# Raw layer — 프로젝트별 데이터/코드 (bootstrap 후 직접 추가)
+projects/
+
+# 개인 학습 노트 — 프로젝트마다 생성됨 (bootstrap + document_skill)
+study/projects/
+study/약점노트/active/*
+!study/약점노트/active/.gitkeep
+study/학습인사이트_log/*
+!study/학습인사이트_log/.gitkeep
+
+# 로컬 설정
+.claude/settings.local.json

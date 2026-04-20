@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "concept_page",
+  "description": "study/projects/{name}/*.md 개념 페이지 검증 규칙",
+  "required_frontmatter": {
+    "type": {
+      "type": "string",
+      "enum": ["concept", "comparison", "synthesis"],
+      "description": "페이지 유형 — wiki_schema.md 페이지 타입 참조"
+    },
+    "project": {
+      "type": "string",
+      "description": "소속 프로젝트명 (예: 과제5)"
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Obsidian Dataview 쿼리용 태그 목록"
+    }
+  },
+  "required_sections": {
+    "h1_heading": {
+      "pattern": "^# .+",
+      "description": "파일 최상단 H1 제목"
+    },
+    "summary_line": {
+      "pattern": "## 한 줄 요약",
+      "description": "한 줄 요약 섹션 (개념 페이지 필수)"
+    },
+    "why_section": {
+      "pattern": "## 왜 필요한가",
+      "description": "필요성 설명 섹션"
+    }
+  },
+  "required_sections_by_type": {
+    "comparison": {
+      "comparison_table": {
+        "pattern": "\\|.+\\|.+\\|",
+        "description": "비교 페이지는 반드시 비교표 포함"
+      }
+    }
+  },
+  "wikilinks": {
+    "min_count": 2,
+    "description": "연관 개념 최소 2개 [[링크]] — 고립 페이지 방지"
+  },
+  "orphan_link_check": true,
+  "notes": "위반 시 wiki_validate.py가 content_error 유형으로 보고"
+}
