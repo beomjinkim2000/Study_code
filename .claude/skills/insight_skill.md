@@ -48,11 +48,16 @@ _updated: YYYY-MM-DD_HH-MM
 
 ## 2. 로그 파일 생성 규칙
 
-경로: `study/학습인사이트_log/YYYY-MM-DD_HH-MM.md`
-방식: **신규 생성** (기존 파일 덮어쓰기 금지)
-파일명: 세션 종료 시점 현재 시각 기준 (카운팅·계산 로직 금지)
+**파일명은 직접 짓지 않는다. 반드시 스크립트를 호출한다.**
 
-예시: `2026-04-16_14-30.md`, `2026-04-16_16-10.md`
+```bash
+python3 scripts/save_insight_log.py <<'EOF'
+{로그 내용}
+EOF
+```
+
+파일명(`YYYY-MM-DD_HH-MM.md`)은 스크립트가 현재 시각으로 결정한다.  
+직접 Write 도구로 `학습인사이트_log/` 에 파일을 생성하는 것을 금지한다.
 
 ```markdown
 # 학습 로그 — YYYY-MM-DD_HH-MM
