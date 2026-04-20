@@ -250,7 +250,8 @@ study/projects/{project_name}/README.md 읽기
        해당 시 → study 연결 필수 후 생성
   4. [[연관 개념]] 최소 2개 포함
   5. study/projects/{project_name}/README.md 구현 순서 체크 업데이트
-  6. 약점노트/README.md 업데이트 (해당 시)
+  6. 약점노트/README.md 업데이트 (해당 시) — 직접 편집 금지, 반드시 스크립트 사용:
+       python3 scripts/update_weakness_readme.py
 
   [Ingest 프로토콜 — llm-wiki 패턴]:
   7. study/index.md 해당 프로젝트 섹션에 행 추가:

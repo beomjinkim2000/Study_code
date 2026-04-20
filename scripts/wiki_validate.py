@@ -203,7 +203,7 @@ class WikiValidator:
                                 f"frontmatter에 '{field}' 없음  ({rel})")
                 continue
             val = fm[field]
-            if field == "level" and not (1 <= int(val) <= 4):
+            if field == "level" and not (1 <= int(str(val).lstrip("L")) <= 4):
                 self._add_error("invalid_frontmatter", rel,
                                 f"level={val} 범위 초과 (1~4)  ({rel})")
             elif field == "next_review":
@@ -230,7 +230,7 @@ class WikiValidator:
     def _check_sm2_consistency(self, fm: dict, rel: str):
         """last_reviewed + history[-1] → 계산 next_review와 파일값 비교"""
         try:
-            level = int(fm.get("level", 0))
+            level = int(str(fm.get("level", 0)).lstrip("L"))
             review_count = int(fm.get("review_count", 0))
             last_reviewed = fm.get("last_reviewed", "")
             stored_next = fm.get("next_review", "")
