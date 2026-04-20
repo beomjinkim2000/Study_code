@@ -87,6 +87,15 @@ claude
 검증 통과 → `document_skill` 실행 → 큐에서 제거  
 큐가 비면 세션 종료 조건 체크.
 
+## 학습 방법론
+
+`.claude/rules/claude-teach.md` 에 정의된 교육 원칙을 따른다.
+
+- **Exposition / Exploration 구분**: 개념 설명(exposition)과 문제 탐색(exploration)을 혼용하지 않음
+- **Persistent Verifier**: 틀린 코드를 직접 고쳐주지 않고 스스로 찾도록 유도
+- **Learn by Doing**: 20줄 이상 구현 시 핵심 로직은 직접 작성하게 TODO(human) 삽입
+- **검증 기준**: 코드를 보지 않고 노트북에 독립 재작성 가능 + 개념 설명 가능 → 완료
+
 ## 주요 기능
 
 ### 약점노트 + SM-2 복습 (`study/약점노트/`)
