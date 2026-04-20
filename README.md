@@ -126,7 +126,7 @@ Claude Code 세션 안에서 `/명령어`로 호출한다.
 |--------|------|
 | `/setup-project {name}` | 새 프로젝트 wiki 구조 초기화 (bootstrap 래퍼) |
 | `/check-progress {name}` | README 구현 체크리스트 업데이트 |
-| `/dl-coach` | DL 실험 설계 코칭 세션 시작 (loss→구조→lr 탐색) |
+| `/dl-coach` | DL 실험 설계 코칭 세션 시작 |
 | `/review-session` | 세션 후 wiki 상태 리뷰 (큐·인사이트·lint 점검) |
 | `/harness` | 전체 워크플로우 검증 (wiki + 튜터 + 코치 한번에) |
 
